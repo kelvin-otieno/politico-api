@@ -19,3 +19,10 @@ def create_office():
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
+
+
+@bpoffice.route('/', methods=['GET'])
+def offices_all():
+    """function to retrieve all political offices"""
+    office = PoliticalOffice()
+    return jsonify(office.get_offices())
