@@ -18,3 +18,25 @@ def parties_id(id):
     parties = PoliticalParty()
 
     return jsonify(parties.get_party(id))
+
+
+@bpparty.route('/', methods=['POST'])
+def create_party():
+    """ Creating a political party"""
+    code = request.json['code']
+    full_name = request.json['full_name']
+    logo = request.json['logo']
+    slogan = request.json['slogan']
+
+    party = PoliticalParty()
+    party.code = code
+    party.full_name = full_name
+    party.logo = logo
+    party.slogan = slogan
+
+    party.create_party()
+    # POLITICAL_PARTIES.append(party)
+    return jsonify(party.get_parties())
+    # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
+    # msg = "the name is " + full_name
+    # return msg
