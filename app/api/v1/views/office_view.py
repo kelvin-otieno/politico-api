@@ -26,3 +26,12 @@ def offices_all():
     """function to retrieve all political offices"""
     office = PoliticalOffice()
     return jsonify(office.get_offices())
+
+
+@bpoffice.route('/<int:id>', methods=['GET'])
+def offices_id(id):
+    """function to retrieve a specific political office"""
+
+    office = PoliticalOffice()
+
+    return jsonify(office.get_office(id))
