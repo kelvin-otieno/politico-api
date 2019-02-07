@@ -40,3 +40,10 @@ def create_party():
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
+
+
+@bpparty.route('/<int:id>', methods=['PUT'])
+def edit_party(id):
+    pparty = PoliticalParty()
+
+    return jsonify(pparty.edit_party(id))
