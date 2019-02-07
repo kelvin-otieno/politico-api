@@ -47,3 +47,11 @@ def edit_party(id):
     pparty = PoliticalParty()
 
     return jsonify(pparty.edit_party(id))
+
+
+@bpparty.route('/<int:id>', methods=['DELETE'])
+def delete_party(id):
+    """ Deleting a political party"""
+    party = PoliticalParty()
+
+    return jsonify(party.delete_party(id))
