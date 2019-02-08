@@ -7,15 +7,21 @@ bpoffice = Blueprint('office', __name__)
 @bpoffice.route('/', methods=['POST'])
 def create_office():
     """ Creating a political party"""
-    name = request.json['name']
-    office_type = request.json['type']
-
     office = PoliticalOffice()
-    office.name = name
-    office.office_type = office_type
+    if request.json['name']:
+        name = request.json['name']
+        office.name = name
+    if request.json['type']:
+        office_type = request.json['type']
+        office.office_type = office_type
+      
+    if name and office_type:
+        return jsonify(office.create_office())
+    else:
+        return dict(status=400, data={"error": "Bad request. Enter all fields"})
 
     # POLITICAL_PARTIES.append(party)
-    return jsonify(office.create_office())
+    
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
