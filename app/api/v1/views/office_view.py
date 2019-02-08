@@ -8,11 +8,11 @@ bpoffice = Blueprint('office', __name__)
 def create_office():
     """ Creating a political party"""
     name = request.json['name']
-    level = request.json['level']
+    office_type = request.json['type']
 
     office = PoliticalOffice()
     office.name = name
-    office.level = level
+    office.office_type = office_type
 
     # POLITICAL_PARTIES.append(party)
     return jsonify(office.create_office())
