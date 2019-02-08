@@ -23,16 +23,14 @@ def parties_id(id):
 @bpparty.route('/', methods=['POST'])
 def create_party():
     """ Creating a political party"""
-    code = request.json['code']
-    full_name = request.json['full_name']
-    logo = request.json['logo']
-    slogan = request.json['slogan']
+    name = request.json['name']
+    hqAddress = request.json['hqAddress']
+    logoUrl = request.json['logoUrl']
 
     party = PoliticalParty()
-    party.code = code
-    party.full_name = full_name
-    party.logo = logo
-    party.slogan = slogan
+    party.name = name
+    party.hqAddress = hqAddress
+    party.logoUrl = logoUrl
 
     party.create_party()
     # POLITICAL_PARTIES.append(party)
