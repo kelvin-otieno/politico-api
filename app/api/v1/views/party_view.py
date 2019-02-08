@@ -23,18 +23,21 @@ def parties_id(id):
 @bpparty.route('/', methods=['POST'])
 def create_party():
     """ Creating a political party"""
-    name = request.json['name']
-    hqAddress = request.json['hqAddress']
-    logoUrl = request.json['logoUrl']
+    if request.json['name'] and request.json['hqAddress'] and request.json['logoUrl']:
+        name = request.json['name']
+        hqAddress = request.json['hqAddress']
+        logoUrl = request.json['logoUrl']
+        party = PoliticalParty()
+        party.name = name
+        party.hqAddress = hqAddress
+        party.logoUrl = logoUrl
 
-    party = PoliticalParty()
-    party.name = name
-    party.hqAddress = hqAddress
-    party.logoUrl = logoUrl
+        party.create_party()
+        # POLITICAL_PARTIES.append(party)
+        return jsonify(party.get_parties())
+    else:
+        return dict(status=400, data={"error": "Bad request. Enter all fields"})
 
-    party.create_party()
-    # POLITICAL_PARTIES.append(party)
-    return jsonify(party.get_parties())
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
