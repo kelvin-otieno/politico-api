@@ -60,7 +60,6 @@ Payload
     }
 ```
 
-
 Response  
 ```
 {
@@ -77,7 +76,6 @@ Response
     
 ```
 
-
 # Editing a party
 
 `/api/v1/parties/1`
@@ -88,7 +86,6 @@ Payload
 ```
 { 'hqAddress': 'Busia'}
 ```
-
 
 Response  
 ```
@@ -101,11 +98,63 @@ Response
             "name": "ANC"
         }
     ],
+    "status": 200
+}
+    
+```
+
+# Creating an office
+
+`/api/v1/offices/`
+
+Payload  
+```
+{ 
+    'type': 'Legislative',
+    'name': 'President'    
+    }
+```
+
+Response  
+```
+{
+    "data": [
+        {
+            'id': 1,
+            'type': 'Legislative',
+            'name': 'President'
+        }
+    ],
     "status": 201
 }
     
 ```
 
+# Editing an office
+
+`/api/v1/offices/1`
+
+The example below shows editing the type of office with id 1 from Elective to Government
+
+Payload    
+```
+{ 'type': 'Government'}
+```
+
+Response  
+```
+{
+    "data": [
+        {
+            'id': 1,
+            'type': 'Government',
+            'name': 'President'
+        }
+    ],
+    "status": 200
+}
+    
+```
 # Licence
 
 © Kelvin Otieno
