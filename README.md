@@ -15,6 +15,12 @@ This app provides the API for the politico project. It allows admin users to:
 - retrieve all political offices
 - retrieve a single political office
 
+# Hosting Link
+```
+https://vast-mountain-54945.herokuapp.com/api/v1/parties/
+https://vast-mountain-54945.herokuapp.com/api/v1/offices/
+```
+
 # Installation
 
 Clone the application from the link `https://github.com/kelvin-otieno/politico-api.git` or simply download the zipped file and extract to your computer.
@@ -29,37 +35,76 @@ To test, while on the root folder, run `pytest -v tests/` or simply navigate to 
 
 # Endpoints
 
-## Creating a party `POST`
+| Endpoint             |      Functionality      | Method |
+| -------------------- | :---------------------: | ------ |
+| /api/v1/parties/     |     Create a party      | POST   |
+| /api/v1/parties/     |     Get all parties     | GET    |
+| /api/v1/parties/<id> |  Get a specific party   | GET    |
+| /api/v1/parties/<id> |  Edit a specific party  | PUT    |
+| /api/v1/parties/<id> | Delete a specific party | DELETE |
+| /api/v1/offices/     |    Create an office     | POST   |
+| /api/v1/offices/<id> |  Get a specific office  | GET    |
+| /api/v1/offices/     |     Get all offices     | GET    |
+
+## PAYLOADS
+
+# Creating a party
 
 `/api/v1/parties/`
 
-## Editing a party `PUT`
+Payload  
+```
+{ 'name': 'ANC',        
+    'hqAddress': 'Bungoma',       
+    'logoUrl': 'amani.png'       
+    }
+```
 
-`/api/v1/parties/<id>`
 
-## Deleting a party `DELETE`
+Response  
+```
+{
+    "data": [
+        {
+            "hqAddress": "Bungoma",
+            "id": 1,
+            "logoUrl": "amani.png",
+            "name": "ANC"
+        }
+    ],
+    "status": 201
+}
+    
+```
 
-`/api/v1/parties/<id>`
 
-## Getting all parties `GET`
+# Editing a party
 
-`/api/v1/parties/`
+`/api/v1/parties/1`
 
-## Getting a single party `GET`
+The example below shows editing the hqAddress of party with id 1 from Bungoma to Busia
 
-`/api/v1/parties/<id>`
+Payload    
+```
+{ 'hqAddress': 'Busia'}
+```
 
-## Creating an office `POST`
 
-`/api/v1/offices/`
-
-## Getting all offices `GET`
-
-`/api/v1/offices/`
-
-## Getting a single office `POST`
-
-`/api/v1/offices/<id>`
+Response  
+```
+{
+    "data": [
+        {
+            "hqAddress": "Busia",
+            "id": 1,
+            "logoUrl": "amani.png",
+            "name": "ANC"
+        }
+    ],
+    "status": 201
+}
+    
+```
 
 # Licence
 
