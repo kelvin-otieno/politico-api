@@ -1,8 +1,8 @@
 """helper data is data which will be used frequently for testing"""
 OFFICE_DATA = {
     'id': 1,
-    'type': 'Legislative',
-    'name': 'President'
+    'type': 'Local Government',
+    'name': 'MCA'
 }
 
 PARTY_DATA = {
@@ -12,8 +12,5 @@ PARTY_DATA = {
     'logoUrl': 'amani.png'
 }
 PARTY_EDITED_DATA = {
-    'id': 2,
-    'name': 'NASA',
-    'hqAddress': 'Nairobi',
-    'logoUrl': 'nasa.png'
+    'name': 'WIPER'
 }

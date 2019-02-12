@@ -14,20 +14,24 @@ class TestOffice(BaseTestCase):
     def test_posting_an_office(self):
         """Test for creating a new office"""
         resp = create_office(self, OFFICE_DATA)
+        self.assertEqual(resp.json['data'][-1]['name'], 'MCA')
         self.assertEqual(resp.status_code, 200)
 
     def test_getting_all_offices(self):
         """Test for getting all offfices"""
         resp = self.client.get(path='/api/v1/offices/')
+        self.assertEqual(len(resp.json['data']),4)
         self.assertEqual(resp.status_code, 200)
 
     def test_getting_a_single_office(self):
         """Test for getting a single office"""
-        data = OFFICE_DATA
-        post = create_office(self, data)
-        int_id = int(post.json['data'][-1]['id'])
+        # data = OFFICE_DATA
+        # post = create_office(self, data)
+        # int_id = int(post.json['data'][-1]['id'])
+        int_id = 2
         path = '/api/v1/offices/{}'.format(int_id)
         response = self.client.get(path, content_type='application/json')
+        self.assertEqual(response.json['data']['name'],'Governor')
         self.assertEqual(response.status_code, 200)
 
 
