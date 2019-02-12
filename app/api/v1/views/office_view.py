@@ -2,23 +2,31 @@ from flask import Blueprint, request, jsonify
 from app.api.v1.models.office_model import PoliticalOffice
 
 bpoffice = Blueprint('office', __name__)
-
+office = PoliticalOffice()
 
 @bpoffice.route('/', methods=['POST'])
 def create_office():
     """ Creating a political party"""
-    office = PoliticalOffice()
+    if 'name' not in request.json or 'type' not in request.json:
+        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
+        # import pdb; pdb.set_trace()
     if request.json['name']:
+        # import pdb; pdb.set_trace()
         name = request.json['name']
         office.name = name
     if request.json['type']:
+        # import pdb; pdb.set_trace()
         office_type = request.json['type']
-        office.office_type = office_type
-      
+        if office_type.lower() != 'federal' and office_type.lower() !='legislative' and office_type.lower() !='state' and office_type.lower() != 'local government':
+            #  import pdb; pdb.set_trace()
+             return jsonify(dict(status=400, data={"Bad request": "Office can only be legislative, state, federal or local government"}))
+        else:
+            office.office_type = office_type
+                           
     if name and office_type:
         return jsonify(office.create_office())
     else:
-        return dict(status=400, data={"error": "Bad request. Enter all fields"})
+        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
 
     # POLITICAL_PARTIES.append(party)
     
@@ -30,7 +38,7 @@ def create_office():
 @bpoffice.route('/', methods=['GET'])
 def offices_all():
     """function to retrieve all political offices"""
-    office = PoliticalOffice()
+    # office = PoliticalOffice()
     return jsonify(office.get_offices())
 
 
@@ -38,6 +46,6 @@ def offices_all():
 def offices_id(id):
     """function to retrieve a specific political office"""
 
-    office = PoliticalOffice()
+    # office = PoliticalOffice()
 
     return jsonify(office.get_office(id))
