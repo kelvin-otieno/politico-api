@@ -61,11 +61,11 @@ class PoliticalParty():
             for party in self.political_parties:
                 if party['id'] == id:
                     exists = True
-                    if request.json['name']:
+                    if 'name' in request.json and request.json['name']:
                         party['name'] = request.json['name']
-                    if request.json['hqAddress']:
+                    if 'hqAdress' in request.json and request.json['hqAddress']:
                         party['hqAddress'] = request.json['hqAddress']
-                    if request.json['logoUrl']:
+                    if 'logoUrl' in request.json and request.json['logoUrl']:
                         party['logoUrl'] = request.json['logoUrl']
                     # return dict(status=Response.status_code, data=self.political_parties)
 
@@ -104,4 +104,4 @@ class PoliticalParty():
         if not exists:
             return dict(status=400, data={"error": "No party with ID:{}".format(id)})
         else:
-            return dict(status=200, data=self.political_parties)
+            return dict(status=200, data=[{"message":"Successfully deleted party with ID:{}".format(id)}])
