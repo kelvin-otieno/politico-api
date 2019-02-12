@@ -130,31 +130,7 @@ Response
     
 ```
 
-# Editing an office
 
-`/api/v1/offices/1`
-
-The example below shows editing the type of office with id 1 from Elective to Government
-
-Payload    
-```
-{ 'type': 'Government'}
-```
-
-Response  
-```
-{
-    "data": [
-        {
-            'id': 1,
-            'type': 'Government',
-            'name': 'President'
-        }
-    ],
-    "status": 200
-}
-    
-```
 # Licence
 
 © Kelvin Otieno
