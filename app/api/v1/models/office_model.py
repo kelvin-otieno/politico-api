@@ -10,28 +10,7 @@ class PoliticalOffice():
     name = ""
 
     def __init__(self):
-        self.political_offices = [
-            {
-                'id': 1,
-                'type': 'Legislative',
-                'name': 'President'
-            },
-            {
-                'id': 2,
-                'type': 'Local Government',
-                'name': 'Governor'
-            },
-            {
-                'id': 3,
-                'type': 'Legislative',
-                'name': 'Senator'
-            },
-            {
-                'id': 4,
-                'type': 'Local Government',
-                'name': 'Women Representative'
-            }
-        ]
+        pass
 
     def create_office(self):
         """method to create a new office"""
@@ -42,7 +21,7 @@ class PoliticalOffice():
         }
 
         self.political_offices.append(office)
-        return dict(status=201, data=self.political_offices)
+        return dict(status=201, data=self.political_offices, success = [{"message":"Successfully created {} office".format(self.name)}])
 
     def get_offices(self):
         """method to get all offices"""

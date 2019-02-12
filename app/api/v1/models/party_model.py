@@ -1,6 +1,6 @@
 """Political Party Model"""
 from flask import request, Response
-
+import pdb
 
 class PoliticalParty():
     """defining the model of a political party"""
@@ -12,32 +12,7 @@ class PoliticalParty():
     logoUrl = ""
 
     def __init__(self):
-        self.political_parties = [
-            {
-                'id': 1,
-                'name': 'ANC',
-                'hqAddress': 'Bungoma',
-                'logoUrl': 'amani.png'
-            },
-            {
-                'id': 2,
-                'name': 'NASA',
-                'hqAddress': 'Nairobi',
-                'logoUrl': 'nasa.png'
-            },
-            {
-                'id': 3,
-                'name': 'Jubilee',
-                'hqAddress': 'Nairobi',
-                'logoUrl': 'jubilee.png'
-            },
-            {
-                'id': 4,
-                'name': 'TIPTIP',
-                'hqAddress': 'Makueni',
-                'logoUrl': 'tip.png'
-            }
-        ]
+        pass
 
     def create_party(self):
         """method to create a new party"""
@@ -49,7 +24,7 @@ class PoliticalParty():
         }
 
         self.political_parties.append(party)
-        return dict(status=201, data=self.political_parties)
+        return dict(status=201, data=self.political_parties, success = [{"message":"Successfully created {} party".format(self.name)}])
 
     def edit_party(self, id):
         """method to edit a party"""
@@ -60,10 +35,11 @@ class PoliticalParty():
         if self.political_parties:
             for party in self.political_parties:
                 if party['id'] == id:
+                    # pdb.set_trace()
                     exists = True
                     if 'name' in request.json and request.json['name']:
                         party['name'] = request.json['name']
-                    if 'hqAdress' in request.json and request.json['hqAddress']:
+                    if 'hqAddress' in request.json and request.json['hqAddress']:
                         party['hqAddress'] = request.json['hqAddress']
                     if 'logoUrl' in request.json and request.json['logoUrl']:
                         party['logoUrl'] = request.json['logoUrl']
@@ -72,11 +48,12 @@ class PoliticalParty():
         if not exists:
             return dict(status=400, data={"error": "No party with ID:{}".format(id)})
         else:
-            return dict(status=201, data=self.political_parties)
+            return dict(status=200, data=self.political_parties)
 
     def get_parties(self):
         """method to get all parties"""
         if self.political_parties:
+            # import pdb; pdb.set_trace()
             return dict(status=200, data=self.political_parties)
         else:
             return dict(status=404, data={"error": "Not Found any parties"})
