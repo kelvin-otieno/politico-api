@@ -19,9 +19,11 @@ class PoliticalOffice():
             'type': self.office_type,
             'name': self.name
         }
-
+        for ofc in self.political_offices:
+            if ofc['name'].strip().lower() == self.name.strip().lower():
+                return dict(status=409, error='Cannot have more that one office with the same name')
         self.political_offices.append(office)
-        return dict(status=201, data=self.political_offices, success = [{"message":"Successfully created {} office".format(self.name)}])
+        return dict(status=201, data=self.political_offices, success=[{"message": "Successfully created {} office".format(self.name)}])
 
     def get_offices(self):
         """method to get all offices"""

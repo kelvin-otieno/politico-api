@@ -2,6 +2,7 @@
 from flask import request, Response
 import pdb
 
+
 class PoliticalParty():
     """defining the model of a political party"""
     political_parties = []
@@ -22,9 +23,11 @@ class PoliticalParty():
             'hqAddress': self.hqAddress,
             'logoUrl': self.logoUrl
         }
-
+        for pty in self.political_parties:
+            if pty['name'].strip().lower() == self.name.strip().lower():
+                return dict(status=409, error='Cannot have more that one party with the same name')
         self.political_parties.append(party)
-        return dict(status=201, data=self.political_parties, success = [{"message":"Successfully created {} party".format(self.name)}])
+        return dict(status=201, data=self.political_parties, success=[{"message": "Successfully created {} party".format(self.name)}])
 
     def edit_party(self, id):
         """method to edit a party"""
@@ -81,4 +84,4 @@ class PoliticalParty():
         if not exists:
             return dict(status=400, data={"error": "No party with ID:{}".format(id)})
         else:
-            return dict(status=200, data=[{"message":"Successfully deleted party with ID:{}".format(id)}])
+            return dict(status=200, data=[{"message": "Successfully deleted party with ID:{}".format(id)}])
