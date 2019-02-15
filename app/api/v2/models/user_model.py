@@ -61,6 +61,7 @@ class User(BaseModel):
         return success
 
     def login_user(self, email, password):
+        """login user"""
         con = init_db()
         cur = con.cursor()
         if not BaseModel().check_exists('users', 'email', email):
