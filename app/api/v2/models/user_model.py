@@ -54,8 +54,8 @@ class User(BaseModel):
         }, 'secretkey')
         success = {
             "status": 201,
-            "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id),
-            "token": token
+            "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id)
+
 
         }
         return success
