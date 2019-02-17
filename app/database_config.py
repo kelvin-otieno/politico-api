@@ -6,7 +6,9 @@ port = 5432
 dbname = 'politico'
 password = 'Iamnumberone'
 
-con_url = "dbname = 'd1er6cirgqjdqu' host = 'ec2-54-225-237-84.compute-1.amazonaws.com' port = '5432' user = 'dtckzifdavniru' password = 'ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758'"
+# con_url = "dbname = 'politico' host = 'localhost' port = '5432' user = 'postgres' password = 'Iamnumber1'"
+# con_url = "dbname = 'd1er6cirgqjdqu' host = 'ec2-54-225-237-84.compute-1.amazonaws.com' port = '5432' user = 'dtckzifdavniru' password = 'ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758'"
+con_url = "postgres://dtckzifdavniru:ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758@ec2-54-225-237-84.compute-1.amazonaws.com:5432/d1er6cirgqjdqu"
 # .format([dbname,host,port,user,password])
 # url = os.getenv([])
 
