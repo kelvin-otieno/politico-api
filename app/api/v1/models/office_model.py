@@ -16,7 +16,7 @@ class PoliticalOffice():
         """method to create a new office"""
         office = {
             'id': len(self.political_offices) + 1,
-            'type': self.office_type,
+            'office_type': self.office_type,
             'name': self.name
         }
         for ofc in self.political_offices:
