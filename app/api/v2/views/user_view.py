@@ -35,8 +35,9 @@ def create_user():
         user.passportUrl = passportUrl.strip().lower()
         user.othername = othername.strip().lower()
         user.isAdmin = bool(isAdmin)
-        user.password = bcrypt.hashpw(
-            password.encode('utf-8'), bcrypt.gensalt())
+        user.password = password
+        # user.password = bcrypt.hashpw(
+        #     password.encode('utf-8'), bcrypt.gensalt())
 
         # import pdb; pdb.set_trace()
         # POLITICAL_PARTIES.append(party)

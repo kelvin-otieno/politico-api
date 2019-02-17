@@ -48,15 +48,13 @@ class User(BaseModel):
         user_id = cur.fetchone()[0]
         con.commit()
         con.close()
-        token = jwt.encode({
-            'user': email,
-            'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
-        }, 'secretkey')
+        # token = jwt.encode({
+        #     'user': email,
+        #     'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
+        # }, 'secretkey')
         success = {
             "status": 201,
-            "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id),
-            "token": token
-
+            "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id)
         }
         return success
 
@@ -69,20 +67,7 @@ class User(BaseModel):
         query = "SELECT firstname,lastname,phonenumber,isAdmin,password from users where email = '" + email + "'"
         cur.execute(query)
         data = cur.fetchall()[0]
-        # import pdb
-        # pdb.set_trace()
-        # if data[4]
-        # if bcrypt.hashpw(password, data[4].encode('utf-8')) != data[4].encode('utf-8'):
-        #     return dict(status=403, error='forbidden:wrong username/password')
-        # else:
-        #     user = dict(
-        #         firstname=data[0],
-        #         lastname=data[1],
-        #         phoneNumber=data[2],
-        #         isAdmin=data[3]
-        #     )
-        # return user
-        # self.app = app
+       
         if password != data[4]:
             return dict(status=403, error='forbidden:wrong username/password')
         else:
