@@ -55,32 +55,32 @@ class Vote(BaseModel):
         }
         return success
 
-    # def count_votes(self, office_id):
+    def count_votes(self, office_id):
 
-    #     con = init_db()
-    #     cur = con.cursor()
+        con = init_db()
+        cur = con.cursor()
 
-    #     query = "select * from vote where office_id = " + str(office_id)
+        query = "select * from vote where office_id = " + str(office_id)
 
-    #     votes_list = []
-    #     candidates_set = set()
-    #     cur.execute(query)
-    #     votes = cur.fetchall()
-    #     for vote in votes:
-    #         candidates_set.add(vote[1])
-    #     result = 0
-    #     for candidate in candidates_set:
-    #         for vote in votes:
-    #             if vote[1] == candidate:
-    #                 result += 1
-    #         votes_list.append(
-    #             dict(office=office_id, candidate=candidate, result=result))
+        votes_list = []
+        candidates_set = set()
+        cur.execute(query)
+        votes = cur.fetchall()
+        for vote in votes:
+            candidates_set.add(vote[1])
+        result = 0
+        for candidate in candidates_set:
+            for vote in votes:
+                if vote[1] == candidate:
+                    result += 1
+            votes_list.append(
+                dict(office=office_id, candidate=candidate, result=result))
 
-    #     con.commit()
-    #     con.close()
-    #     success = {
-    #         "status": 200,
-    #         "data": votes_list
+        con.commit()
+        con.close()
+        success = {
+            "status": 200,
+            "data": votes_list
 
-    #     }
-    #     return success
+        }
+        return success
