@@ -26,23 +26,23 @@ To test, while on the root folder, run `pytest -v tests/` or simply navigate to 
 
 # Endpoints
 
-| Endpoint                      |      Functionality      | Method |
-| ----------------------------- | :---------------------: | ------ |
-| /api/v2/parties/              |     Create a party      | POST   |
-| /api/v2/parties/              |     Get all parties     | GET    |
-| /api/v2/parties/<id>          |  Get a specific party   | GET    |
-| /api/v2/parties/<id>          |  Edit a specific party  | PUT    |
-| /api/v2/parties/<id>          | Delete a specific party | DELETE |
-| /api/v2/offices/              |    Create an office     | POST   |
-| /api/v2/offices/<id>          |  Get a specific office  | GET    |
-| /api/v2/offices/<id>          |     Edit an office      | PUT    |
-| /api/v2/offices/<id>          |    Delete an office     | DELETE |
-| /api/v2/offices/              |     Get all offices     | GET    |
-| /api/v2/auth/signup/          |      Create a user      | POST   |
-| /api/v2/auth/login/           |      Login a user       | POST   |
-| /api/v2/office/<id>/register/ |  Register a candidate   | POST   |
-| /api/v2/votes/                |          Vote           | POST   |
-| /api/v2/office/<id>/result/   |       Count votes       | POST   |
+| Endpoint                        |      Functionality      | Method |
+| ------------------------------- | :---------------------: | ------ |
+| /api/v2/parties/                |     Create a party      | POST   |
+| /api/v2/parties/                |     Get all parties     | GET    |
+| /api/v2/parties/`<id>`          |  Get a specific party   | GET    |
+| /api/v2/parties/`<id>`          |  Edit a specific party  | PUT    |
+| /api/v2/parties/`<id>`          | Delete a specific party | DELETE |
+| /api/v2/offices/                |    Create an office     | POST   |
+| /api/v2/offices/`<id>`          |  Get a specific office  | GET    |
+| /api/v2/offices/`<id>`          |     Edit an office      | PUT    |
+| /api/v2/offices/`<id>`          |    Delete an office     | DELETE |
+| /api/v2/offices/                |     Get all offices     | GET    |
+| /api/v2/auth/signup/            |      Create a user      | POST   |
+| /api/v2/auth/login/             |      Login a user       | POST   |
+| /api/v2/office/`<id>`/register/ |  Register a candidate   | POST   |
+| /api/v2/votes/                  |          Vote           | POST   |
+| /api/v2/office/`<id>`/result/   |       Count votes       | POST   |
 
 # Project Management
 
