@@ -4,21 +4,12 @@
 
 # Politico API
 
-This app provides the API for the politico project. It allows admin users to:
-
-- create a political party
-- delete a political party
-- edit a political party
-- retrieve all parties created
-- retrieve a single party
-- create a political office
-- retrieve all political offices
-- retrieve a single political office
+Politico is a platform which both the politicians and citizens can use. It enables citizens give their mandate to politicians running for different government offices while building trust in the process through transparency
 
 # Hosting Link
+
 ```
-https://vast-mountain-54945.herokuapp.com/api/v1/parties/
-https://vast-mountain-54945.herokuapp.com/api/v1/offices/
+https://vast-mountain-54945.herokuapp.com
 ```
 
 # Installation
@@ -35,101 +26,31 @@ To test, while on the root folder, run `pytest -v tests/` or simply navigate to 
 
 # Endpoints
 
-| Endpoint             |      Functionality      | Method |
-| -------------------- | :---------------------: | ------ |
-| /api/v1/parties/     |     Create a party      | POST   |
-| /api/v1/parties/     |     Get all parties     | GET    |
-| /api/v1/parties/<id> |  Get a specific party   | GET    |
-| /api/v1/parties/<id> |  Edit a specific party  | PUT    |
-| /api/v1/parties/<id> | Delete a specific party | DELETE |
-| /api/v1/offices/     |    Create an office     | POST   |
-| /api/v1/offices/<id> |  Get a specific office  | GET    |
-| /api/v1/offices/     |     Get all offices     | GET    |
+| Endpoint                      |      Functionality      | Method |
+| ----------------------------- | :---------------------: | ------ |
+| /api/v2/parties/              |     Create a party      | POST   |
+| /api/v2/parties/              |     Get all parties     | GET    |
+| /api/v2/parties/<id>          |  Get a specific party   | GET    |
+| /api/v2/parties/<id>          |  Edit a specific party  | PUT    |
+| /api/v2/parties/<id>          | Delete a specific party | DELETE |
+| /api/v2/offices/              |    Create an office     | POST   |
+| /api/v2/offices/<id>          |  Get a specific office  | GET    |
+| /api/v2/offices/<id>          |     Edit an office      | PUT    |
+| /api/v2/offices/<id>          |    Delete an office     | DELETE |
+| /api/v2/offices/              |     Get all offices     | GET    |
+| /api/v2/auth/signup/          |      Create a user      | POST   |
+| /api/v2/auth/login/           |      Login a user       | POST   |
+| /api/v2/office/<id>/register/ |  Register a candidate   | POST   |
+| /api/v2/votes/                |          Vote           | POST   |
+| /api/v2/office/<id>/result/   |       Count votes       | POST   |
 
-## PAYLOADS
+# Project Management
 
-# Creating a party
+[Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2241865)
 
-`/api/v1/parties/`
+# Project Documentation
 
-Payload  
-```
-{ 'name': 'ANC',        
-    'hqAddress': 'Bungoma',       
-    'logoUrl': 'amani.png'       
-    }
-```
-
-Response  
-```
-{
-    "data": [
-        {
-            "hqAddress": "Bungoma",
-            "id": 1,
-            "logoUrl": "amani.png",
-            "name": "ANC"
-        }
-    ],
-    "status": 201
-}
-    
-```
-
-# Editing a party
-
-`/api/v1/parties/1`
-
-The example below shows editing the hqAddress of party with id 1 from Bungoma to Busia
-
-Payload    
-```
-{ 'hqAddress': 'Busia'}
-```
-
-Response  
-```
-{
-    "data": [
-        {
-            "hqAddress": "Busia",
-            "id": 1,
-            "logoUrl": "amani.png",
-            "name": "ANC"
-        }
-    ],
-    "status": 200
-}
-    
-```
-
-# Creating an office
-
-`/api/v1/offices/`
-
-Payload  
-```
-{ 
-    'type': 'Legislative',
-    'name': 'President'    
-    }
-```
-
-Response  
-```
-{
-    "data": [
-        {
-            'id': 1,
-            'type': 'Legislative',
-            'name': 'President'
-        }
-    ],
-    "status": 201
-}
-    
-```
-
+[Politico API Documentation](https://politico14.docs.apiary.io/)
 
 # Licence
 
