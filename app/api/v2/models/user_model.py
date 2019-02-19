@@ -4,6 +4,7 @@ from flask import request
 import jwt
 import bcrypt
 import datetime
+import os
 # from run import app
 
 firstname = ""
@@ -36,6 +37,8 @@ class User(BaseModel):
         }
 
         con = init_db()
+        # import pdb
+        # pdb.set_trace()
         cur = con.cursor()
         query = """INSERT INTO USERS (firstname,lastname,othername,email,phoneNumber,passportUrl,isAdmin,password) VALUES \
              (%(firstname)s,%(lastname)s,%(othername)s,%(email)s,%(phoneNumber)s,%(passportUrl)s,%(isAdmin)s,%(password)s) Returning user_id;"""
@@ -67,14 +70,14 @@ class User(BaseModel):
         query = "SELECT firstname,lastname,phonenumber,isAdmin,password from users where email = '" + email + "'"
         cur.execute(query)
         data = cur.fetchall()[0]
-       
+
         if password != data[4]:
             return dict(status=403, error='forbidden:wrong username/password')
         else:
             token = jwt.encode({
                 'user': email,
                 'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
-            }, 'secretkey')
+            }, os.getenv('SECRET_KEY'))
             user = dict(
                 firstname=data[0],
                 lastname=data[1],
