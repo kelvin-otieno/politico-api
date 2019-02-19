@@ -98,10 +98,16 @@ class PoliticalParty(BaseModel):
             query += "name = '" + str(uname) + "'"
         if 'hqAddress' in request.json and request.json['hqAddress'].strip():
             uhqAddress = request.json['hqAddress'].strip().lower()
-            query += ",hqAddress = '" + str(uhqAddress) + "'"
+            if 'name' in request.json and request.json['name'].strip():
+                query += ",hqAddress = '" + str(uhqAddress) + "'"
+            else:
+                query += "hqAddress = '" + str(uhqAddress) + "'"
         if 'logoUrl' in request.json and request.json['logoUrl'].strip():
             ulogoUrl = request.json['logoUrl'].strip().lower()
-            query += ",logoUrl = '" + str(ulogoUrl) + "'"
+            if 'hqAddress' in request.json and request.json['hqAddress'].strip() or 'name' in request.json and request.json['name'].strip():
+                query += ",logoUrl = '" + str(ulogoUrl) + "'"
+            else:
+                query += "logoUrl = '" + str(ulogoUrl) + "'"
 
         query += " where party_id = {}".format(party_id)
         # import pdb; pdb.set_trace()
