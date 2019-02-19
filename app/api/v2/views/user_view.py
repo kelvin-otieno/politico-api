@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.user_model import User
 import bcrypt
+from . import token_auth
 
 bpuser = Blueprint('user', __name__)
 user = User()
