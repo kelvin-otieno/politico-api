@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.office_model import PoliticalOffice
+from . import token_auth
 
 bpofficev2 = Blueprint('officev2', __name__)
 office = PoliticalOffice()
 
 
 @bpofficev2.route('/', methods=['POST'])
+@token_auth
 def create_office():
     """ Creating a political office"""
 
@@ -43,6 +45,7 @@ def create_office():
 
 
 @bpofficev2.route('/', methods=['GET'])
+@token_auth
 def offices_all():
     """function to retrieve all political offices"""
     # office = PoliticalOffice()
@@ -50,6 +53,7 @@ def offices_all():
 
 
 @bpofficev2.route('/<int:id>', methods=['GET'])
+@token_auth
 def offices_id(id):
     """function to retrieve a specific political office"""
 
@@ -57,6 +61,7 @@ def offices_id(id):
 
 
 @bpofficev2.route('/<int:id>', methods=['PUT'])
+@token_auth
 def edit_office(id):
 
     if 'name' in request.json and not request.json['name'].strip():
@@ -68,6 +73,7 @@ def edit_office(id):
 
 
 @bpofficev2.route('/<int:id>', methods=['DELETE'])
+@token_auth
 def delete_party(id):
     """ Deleting a political office"""
 

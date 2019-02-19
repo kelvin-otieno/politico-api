@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.party_model import PoliticalParty
+from . import token_auth
 
 bppartyv2 = Blueprint('partyv2', __name__)
 party = PoliticalParty()
 
 
 @bppartyv2.route('/', methods=['GET'])
+@token_auth
 def parties_all():
     """function to retrieve all political parties"""
 
@@ -13,6 +15,7 @@ def parties_all():
 
 
 @bppartyv2.route('/<int:id>', methods=['GET'])
+@token_auth
 def parties_id(id):
     """function to retrieve a specific political party"""
 
@@ -22,6 +25,7 @@ def parties_id(id):
 
 
 @bppartyv2.route('/', methods=['POST'])
+@token_auth
 def create_party():
     """ Creating a political party"""
     if request.json['name'].strip() and request.json['hqAddress'].strip() and request.json['logoUrl'].strip():
@@ -42,9 +46,11 @@ def create_party():
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
+# import pdb; pdb.set_trace()
 
 
 @bppartyv2.route('/<int:id>', methods=['PUT'])
+@token_auth
 def edit_party(id):
     # pparty = PoliticalParty()
     if 'name' in request.json and not request.json['name'].strip():
@@ -58,6 +64,7 @@ def edit_party(id):
 
 
 @bppartyv2.route('/<int:id>', methods=['DELETE'])
+@token_auth
 def delete_party(id):
     """ Deleting a political party"""
     # party = PoliticalParty()
