@@ -12,7 +12,7 @@ from app.api.v2.views.vote_view import bpvote
 def create_app():
     """Method to create our app"""
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'secretkey'
+    # app.config['SECRET_KEY'] = 'secretkey'
     app.url_map.strict_slashes = False
     app.register_blueprint(bpparty, url_prefix='/api/v1/parties')
     app.register_blueprint(bpoffice, url_prefix='/api/v1/offices')
