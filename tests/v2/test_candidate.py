@@ -3,8 +3,8 @@ import json
 import unittest
 import pdb
 from ..base_test import BaseTestCase
-from ..helper_methods import create_candidate, create_office_v2, create_user
-from ..helper_data import CANDIDATE_DATA, OFFICE_DATA, USER_DATA
+from ..helper_methods import create_candidate, create_office_v2, create_user, login_user, create_party_v2
+from ..helper_data import CANDIDATE_DATA, OFFICE_DATA, USER_DATA, LOGIN_DATA, PARTY_DATA
 from app.api.v2.models.candidate_model import Candidate
 from app.database_config import init_db, destroydb
 
@@ -16,12 +16,16 @@ class TestCandidate(BaseTestCase):
     def setUp(self):
         super(TestCandidate, self).setUp()
         init_db()
+        create_user(self, USER_DATA)
+        response = login_user(self, LOGIN_DATA)
+        token = response.json['data']['token']
+        self.header = {'Content-Type': 'application/json', 'token': token}
 
     def test_creating_a_candidate(self):
         """Test for creating a new candidate"""
-        post = create_office_v2(self, OFFICE_DATA)
-        response = create_user(self, USER_DATA)
-        resp = create_candidate(self, CANDIDATE_DATA)
+        post = create_office_v2(self, OFFICE_DATA, self.header)
+        response = create_party_v2(self, PARTY_DATA, self.header)
+        resp = create_candidate(self, CANDIDATE_DATA, self.header)
         self.assertEqual(resp.json['data']['user'], 1)
 
         self.assertEqual(resp.status_code, 200)
