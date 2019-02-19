@@ -97,7 +97,12 @@ class PoliticalOffice(BaseModel):
             query += "name = '" + str(uname) + "'"
         if 'office_type' in request.json and request.json['office_type'].strip():
             utype = request.json['office_type'].strip().lower()
-            query += ",office_type = '" + str(office_type) + "'"
+            if 'name' in request.json and request.json['name'].strip():
+                query += ",office_type = '" + str(office_type) + "'"
+            else:
+                query += "office_type = '" + str(office_type) + "'"
+
+            
 
         query += " where office_id = {}".format(office_id)
         # import pdb; pdb.set_trace()
