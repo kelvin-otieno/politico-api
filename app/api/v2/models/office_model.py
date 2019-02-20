@@ -72,9 +72,13 @@ class PoliticalOffice(BaseModel):
         office_id = cur.fetchone()[0]
         con.commit()
         con.close()
+        office_list = []
+        office_dict = dict(
+            id=office_id, name=office['name'], office_type=office['office_type'])
+        office_list.append(office_dict)
         success = {
             "status": 201,
-            "message": "Successfully created {} office with ID:{}".format(office['name'], office_id)
+            "data": office_list
 
         }
         return success
@@ -101,8 +105,6 @@ class PoliticalOffice(BaseModel):
                 query += ",office_type = '" + str(office_type) + "'"
             else:
                 query += "office_type = '" + str(office_type) + "'"
-
-            
 
         query += " where office_id = {}".format(office_id)
         # import pdb; pdb.set_trace()

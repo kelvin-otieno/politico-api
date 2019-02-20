@@ -1,4 +1,4 @@
-from app.database_config import init_db
+from app.database_config import init_db, destroydb
 from app.api.v2.models.basemodel import BaseModel
 from flask import request
 import jwt
@@ -13,7 +13,6 @@ othername = ""
 email = ""
 phoneNumber = ""
 passportUrl = ""
-isAdmin = False
 password = ""
 
 
@@ -25,6 +24,7 @@ class User(BaseModel):
         # self.logoUrl = logoUrl.strip().lower()
 
     def register_user(self):
+        destroydb()
         user = {
             "firstname": self.firstname,
             "lastname": self.lastname,
@@ -32,7 +32,6 @@ class User(BaseModel):
             "email": self.email,
             "phoneNumber": self.phoneNumber,
             "passportUrl": self.passportUrl,
-            "isAdmin": self.isAdmin,
             "password": self.password
         }
 
@@ -40,14 +39,20 @@ class User(BaseModel):
         # import pdb
         # pdb.set_trace()
         cur = con.cursor()
-        query = """INSERT INTO USERS (firstname,lastname,othername,email,phoneNumber,passportUrl,isAdmin,password) VALUES \
-             (%(firstname)s,%(lastname)s,%(othername)s,%(email)s,%(phoneNumber)s,%(passportUrl)s,%(isAdmin)s,%(password)s) Returning user_id;"""
+        def_query = "INSERT INTO USERS (firstname,lastname,othername,email,phoneNumber,passportUrl,isAdmin,password)  VALUES ('elsie', 'chesang','keter','admin@admin.com','0712561541','https://pic.png',true,'admin')"
+        query = """INSERT INTO USERS (firstname,lastname,othername,email,phoneNumber,passportUrl,password) VALUES \
+             (%(firstname)s,%(lastname)s,%(othername)s,%(email)s,%(phoneNumber)s,%(passportUrl)s,%(password)s) Returning user_id;"""
         # import pdb
         # pdb.set_trace()
         bm = BaseModel()
         if bm.check_exists('users', 'email', user['email'].strip().lower()):
             return dict(status=409, error="Cannot have more than one user with the same email")
-        cur.execute(query, user)
+        try:
+            cur.execute(def_query)
+            cur.execute(query, user)
+        except Exception as e:
+            return dict(status=409, error=str(e))
+
         user_id = cur.fetchone()[0]
         con.commit()
         con.close()
@@ -55,8 +60,13 @@ class User(BaseModel):
         #     'user': email,
         #     'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
         # }, 'secretkey')
+        user_list = []
+        user_dict = dict(
+            id=user_id, name=user['firstname'], email=user['email'], phone=user['phoneNumber'])
+        user_list.append(user_dict)
         success = {
             "status": 201,
+            "data": user_list,
             "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id)
         }
         return success
@@ -74,8 +84,10 @@ class User(BaseModel):
         if password != data[4]:
             return dict(status=403, error='forbidden:wrong username/password')
         else:
+            isAdmin = bool(data[3])
             token = jwt.encode({
                 'user': email,
+                'role': isAdmin,
                 'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
             }, os.getenv('SECRET_KEY'))
             user = dict(
