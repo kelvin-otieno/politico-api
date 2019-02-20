@@ -33,16 +33,16 @@ def init_db():
     return con
 
 
-def init_test_db():
-    """returns connection and creates tables for tests"""
-    con = connection(test_url)
-    cur = con.cursor()
-    queries = tables()
+# def init_test_db():
+#     """returns connection and creates tables for tests"""
+#     con = connection(test_url)
+#     cur = con.cursor()
+#     queries = tables()
 
-    for query in queries:
-        cur.execute(query)
-    con.commit()
-    return con
+#     for query in queries:
+#         cur.execute(query)
+#     con.commit()
+#     return con
 
 
 def destroydb():
