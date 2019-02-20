@@ -73,10 +73,12 @@ class PoliticalParty(BaseModel):
         party_id = cur.fetchone()[0]
         con.commit()
         con.close()
+        data_list = []
+        party_dict = dict(id=party_id, name=party['name'])
+        data_list.append(party_dict)
         success = {
             "status": 201,
-            "message": "Successfully created {} party with ID:{}".format(party['name'], party_id)
-
+            "data": data_list
         }
         return success
 
