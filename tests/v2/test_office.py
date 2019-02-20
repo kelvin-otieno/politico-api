@@ -14,11 +14,7 @@ class TestOffice(BaseTestCase):
 
     def setUp(self):
         super(TestOffice, self).setUp()
-        init_db()
-        create_user(self, USER_DATA)
-        response = login_user(self, LOGIN_DATA)
-        token = response.json['data']['token']
-        self.header = {'Content-Type': 'application/json', 'token': token}
+        self.header = BaseTestCase.getHeader(self)
 
     def test_posting_an_office(self):
         """Test for creating a new office"""

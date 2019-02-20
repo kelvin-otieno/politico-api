@@ -15,11 +15,7 @@ class TestCandidate(BaseTestCase):
 
     def setUp(self):
         super(TestCandidate, self).setUp()
-        init_db()
-        create_user(self, USER_DATA)
-        response = login_user(self, LOGIN_DATA)
-        token = response.json['data']['token']
-        self.header = {'Content-Type': 'application/json', 'token': token}
+        self.header = BaseTestCase.getHeader(self)
 
     def test_creating_a_candidate(self):
         """Test for creating a new candidate"""
