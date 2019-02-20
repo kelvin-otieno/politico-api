@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.party_model import PoliticalParty
-from . import token_auth
+from . import token_auth, is_admin
 
 bppartyv2 = Blueprint('partyv2', __name__)
 party = PoliticalParty()
@@ -28,6 +28,8 @@ def parties_id(id):
 @token_auth
 def create_party():
     """ Creating a political party"""
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a party"}))
     if request.json['name'].strip() and request.json['hqAddress'].strip() and request.json['logoUrl'].strip():
         name = request.json['name']
         hqAddress = request.json['hqAddress']
@@ -49,10 +51,12 @@ def create_party():
 # import pdb; pdb.set_trace()
 
 
-@bppartyv2.route('/<int:id>', methods=['PUT'])
+@bppartyv2.route('/<int:id>', methods=['PATCH'])
 @token_auth
 def edit_party(id):
     # pparty = PoliticalParty()
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can edit a party"}))
     if 'name' in request.json and not request.json['name'].strip():
         return jsonify(dict(status=400, error="Bad request. You cannot have a blank field"))
     if 'hqAddress' in request.json and not request.json['hqAddress'].strip():
@@ -68,5 +72,6 @@ def edit_party(id):
 def delete_party(id):
     """ Deleting a political party"""
     # party = PoliticalParty()
-
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can delete a party"}))
     return jsonify(party.delete_party(id))

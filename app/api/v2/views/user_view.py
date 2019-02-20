@@ -11,7 +11,7 @@ user = User()
 def create_user():
     """ Creating a user"""
 
-    if request.json['firstname'].strip() and request.json['othername'].strip() and request.json['lastname'].strip() and request.json['email'].strip() and request.json['phoneNumber'].strip() and request.json['passportUrl'].strip() and request.json['isAdmin'].strip() and request.json['password'].strip():
+    if request.json['firstname'].strip() and request.json['othername'].strip() and request.json['lastname'].strip() and request.json['email'].strip() and request.json['phoneNumber'].strip() and request.json['passportUrl'].strip() and request.json['password'].strip():
 
         if len(request.json['password'].strip()) < 6:
             return jsonify(dict(status=400, error='password must have a minimum length of 6'))
@@ -21,13 +21,8 @@ def create_user():
         email = request.json['email']
         phoneNumber = request.json['phoneNumber']
         passportUrl = request.json['passportUrl']
-
-        isAdmin = request.json['isAdmin']
         password = request.json['password']
-        # party = PoliticalParty()
-        # text = "here"
-        # import pdb
-        # pdb.set_trace()
+
         user.firstname = firstname.strip().lower()
         user.lastname = lastname.strip().lower()
         user.othername = othername.strip().lower()
@@ -35,13 +30,8 @@ def create_user():
         user.phoneNumber = phoneNumber.strip().lower()
         user.passportUrl = passportUrl.strip().lower()
         user.othername = othername.strip().lower()
-        user.isAdmin = bool(isAdmin)
         user.password = password
-        # user.password = bcrypt.hashpw(
-        #     password.encode('utf-8'), bcrypt.gensalt())
 
-        # import pdb; pdb.set_trace()
-        # POLITICAL_PARTIES.append(party)
         return jsonify(user.register_user())
 
     else:
