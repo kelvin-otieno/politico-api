@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.office_model import PoliticalOffice
-from . import token_auth
+from . import token_auth, is_admin()
 
 bpofficev2 = Blueprint('officev2', __name__)
 office = PoliticalOffice()
@@ -10,7 +10,8 @@ office = PoliticalOffice()
 @token_auth
 def create_office():
     """ Creating a political office"""
-
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create an office"}))
     if 'name' not in request.json or 'office_type' not in request.json:
         return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
         # import pdb
@@ -63,7 +64,8 @@ def offices_id(id):
 @bpofficev2.route('/<int:id>', methods=['PUT'])
 @token_auth
 def edit_office(id):
-
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a candidate"}))
     if 'name' in request.json and not request.json['name'].strip():
         return jsonify(dict(status=400, error="Bad request. You cannot have a blank field"))
     if 'office_type' in request.json and not request.json['office_type'].strip():
@@ -74,7 +76,8 @@ def edit_office(id):
 
 @bpofficev2.route('/<int:id>', methods=['DELETE'])
 @token_auth
-def delete_party(id):
+def delete_office(id):
     """ Deleting a political office"""
-
+    if not is_admin():
+        return jsonify(dict(status=401, data="Not authorized. Only admins can delete an office"))
     return jsonify(office.delete_office(id))

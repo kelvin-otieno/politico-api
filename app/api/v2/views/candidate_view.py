@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.candidate_model import Candidate
-from . import token_auth
+from . import token_auth,is_admin()
 
 bpcandidate = Blueprint('candidate', __name__)
 candidate = Candidate()
@@ -10,6 +10,8 @@ candidate = Candidate()
 @token_auth
 def create_candidate(officeid):
     """ Creating a candidate"""
+    if not is_admin():
+        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a candidate"}))
     office_id = officeid
     if 'user_id' not in request.json or 'party_id' not in request.json:
         return jsonify(dict(status=400, data={"error": "Missing field"}))
