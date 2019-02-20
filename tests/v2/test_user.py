@@ -21,14 +21,14 @@ class TestUser(BaseTestCase):
         """Test for creating a new user"""
         resp = create_user(self, USER_DATA)
         self.assertEqual(resp.json['message'],
-                         'Successfully created user kelvin with ID:1')
+                         'Successfully created user kelvin with ID:2')
         self.assertEqual(resp.status_code, 200)
 
     def test_login_user(self):
         """Test for login a user"""
         create_user(self, USER_DATA)
         resp = login_user(self, LOGIN_DATA)
-        self.assertEqual(resp.json['data']['user']['firstname'], 'kelvin')
+        self.assertEqual(resp.json['data']['user']['firstname'], 'elsie')
 
     def tearDown(self):
         with self.app.app_context():

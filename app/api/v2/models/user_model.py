@@ -24,7 +24,7 @@ class User(BaseModel):
         # self.logoUrl = logoUrl.strip().lower()
 
     def register_user(self):
-        destroydb()
+        # destroydb()
         user = {
             "firstname": self.firstname,
             "lastname": self.lastname,

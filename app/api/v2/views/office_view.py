@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.office_model import PoliticalOffice
-from . import token_auth, is_admin()
+from . import token_auth, is_admin
 
 bpofficev2 = Blueprint('officev2', __name__)
 office = PoliticalOffice()

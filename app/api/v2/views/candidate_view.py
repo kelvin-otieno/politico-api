@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.candidate_model import Candidate
-from . import token_auth,is_admin()
+from . import token_auth,is_admin
 
 bpcandidate = Blueprint('candidate', __name__)
 candidate = Candidate()

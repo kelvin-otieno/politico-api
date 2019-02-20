@@ -55,7 +55,7 @@ class TestParty(BaseTestCase):
         """Test for editing a party"""
         resp = create_party_v2(self, PARTY_DATA, self.header)
         path = '/api/v2/parties/1'
-        response = self.client.put(path, data=json.dumps(
+        response = self.client.patch(path, data=json.dumps(
             PARTY_EDITED_DATA), content_type="application/json", headers=self.header)
         self.assertEqual(response.json['message'], 'Changes made successfully')
         self.assertEqual(resp.status_code, 200)

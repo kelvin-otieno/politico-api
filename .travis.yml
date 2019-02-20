@@ -13,3 +13,6 @@ script:
 
 after_success:
   - coveralls
+
+env:
+  - SECRET_KEY="secretkey" DATABASE_URL="postgres://dtckzifdavniru:ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758@ec2-54-225-237-84.compute-1.amazonaws.com:5432/d1er6cirgqjdqu"

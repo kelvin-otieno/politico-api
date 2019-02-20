@@ -23,8 +23,8 @@ class TestOffice(BaseTestCase):
     def test_posting_an_office(self):
         """Test for creating a new office"""
         resp = create_office_v2(self, OFFICE_DATA, self.header)
-        self.assertEqual(resp.json['message'],
-                         'Successfully created mca office with ID:1')
+        self.assertEqual(resp.json['status'],
+                         201)
         self.assertEqual(resp.status_code, 200)
 
     def test_getting_all_offices(self):
