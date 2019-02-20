@@ -27,15 +27,14 @@ USER_DATA = {
     "lastname": "otieno",
                 "othername": "okoth",
                 "email": "kelvinotieno06@gmail.com",
-                "phoneNumber": "0712561541",
+                "phoneNumber": "0712561543",
                 "passportUrl": "image.png",
-                "isAdmin": "True",
                 "password": "Iamnumber1"
 }
 
 LOGIN_DATA = {
-    "email": "kelvinotieno06@gmail.com",
-    "password": "Iamnumber1"
+    "email": "admin@admin.com",
+    "password": "admin"
 }
 
 CANDIDATE_DATA = {

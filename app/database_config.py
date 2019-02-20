@@ -10,7 +10,7 @@ import os
 # con_url = "dbname = 'politico' host = 'localhost' port = '5432' user = 'postgres' password = 'Iamnumber1'"
 con_url = os.environ['DATABASE_URL']
 
-#con_url = "postgres://dtckzifdavniru:ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758@ec2-54-225-237-84.compute-1.amazonaws.com:5432/d1er6cirgqjdqu"
+# con_url = "postgres://dtckzifdavniru:ca23489d6c5341a7bf703b8c0cacdb80ec690b9fe6883d4a5123597747743758@ec2-54-225-237-84.compute-1.amazonaws.com:5432/d1er6cirgqjdqu"
 # .format([dbname,host,port,user,password])
 # url = os.getenv([])
 
@@ -86,7 +86,7 @@ def tables():
         email character varying(50) NOT NULL UNIQUE,
         phoneNumber character varying(50) NOT NULL UNIQUE,
         passportUrl character varying(50) NOT NULL,
-        isAdmin boolean,
+        isAdmin boolean DEFAULT false,
         password character varying(100) NOT NULL,
         date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
     );"""
