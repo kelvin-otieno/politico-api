@@ -47,8 +47,14 @@ class User(BaseModel):
         bm = BaseModel()
         if bm.check_exists('users', 'email', user['email'].strip().lower()):
             return dict(status=409, error="Cannot have more than one user with the same email")
+
+        if not bm.check_exists('users', 'firstname', 'elsie'):
+            try:
+                cur.execute(def_query)
+            except Exception as e:
+                pass
+
         try:
-            cur.execute(def_query)
             cur.execute(query, user)
         except Exception as e:
             return dict(status=409, error=str(e))
@@ -64,9 +70,14 @@ class User(BaseModel):
         user_dict = dict(
             id=user_id, name=user['firstname'], email=user['email'], phone=user['phoneNumber'])
         user_list.append(user_dict)
+        token = jwt.encode({
+            'user': email,
+            'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
+        }, os.getenv('SECRET_KEY'))
         success = {
             "status": 201,
             "data": user_list,
+            "token": token.decode('UTF-8'),
             "message": "Successfully created user {} with ID:{}".format(user['firstname'], user_id)
         }
         return success
@@ -77,15 +88,17 @@ class User(BaseModel):
         cur = con.cursor()
         if not BaseModel().check_exists('users', 'email', email):
             return dict(status=404, error="No user with email:{}".format(email))
-        query = "SELECT firstname,lastname,phonenumber,isAdmin,password from users where email = '" + email + "'"
+        query = "SELECT firstname,lastname,phonenumber,isAdmin,password,user_id from users where email = '" + email + "'"
         cur.execute(query)
         data = cur.fetchall()[0]
 
         if password != data[4]:
-            return dict(status=403, error='forbidden:wrong username/password')
+            return dict(status=401, error='Not authorised :wrong username/password')
         else:
             isAdmin = bool(data[3])
+            user_id = int(data[5])
             token = jwt.encode({
+                'user_id': user_id,
                 'user': email,
                 'role': isAdmin,
                 'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
@@ -95,5 +108,43 @@ class User(BaseModel):
                 lastname=data[1],
                 phoneNumber=data[2],
                 isAdmin=data[3]
+
             )
+        con.commit()
+        con.close()
         return dict(status=200, data={"user": user, "token": token.decode('UTF-8')})
+
+    def get_users(self):
+        """method to get all users"""
+        con = init_db()
+        cur = con.cursor()
+        query = "SELECT user_id,firstname, email,phoneNumber,isAdmin from users;"
+        cur.execute(query)
+        data = cur.fetchall()
+        user_list = []
+
+        for i, items in enumerate(data):
+            user_id, firstname, email, phoneNumber, isAdmin = items
+            user = dict(
+                user_id=user_id,
+                firstname=firstname,
+                email=email,
+                phoneNumber=phoneNumber,
+                isAdmin=isAdmin
+            )
+            user_list.append(user)
+
+        return dict(status=200, data=user_list)
+
+    def reset_password(self, email, password):
+        """reset password"""
+        con = init_db()
+        cur = con.cursor()
+        if not BaseModel().check_exists('users', 'email', email):
+            return dict(status=404, error="No user with email:{}".format(email))
+        query = "UPDATE users set password = '{}' where email = '{}'".format(
+            password, email)
+        cur.execute(query)
+        con.commit()
+        con.close()
+        return dict(status=200, data={"message": "password set successfully", "email": str(email)})
