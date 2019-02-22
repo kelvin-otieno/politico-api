@@ -23,7 +23,7 @@ class TestVote(BaseTestCase):
         create_party_v2(self, PARTY_DATA, self.header)
         create_candidate(self, CANDIDATE_DATA, self.header)
         resp = create_vote(self, VOTING_DATA, self.header)
-        self.assertEqual(resp.json['data']['candidate'], 1)
+        self.assertEqual(resp.json['data']['candidate_id'], 1)
         self.assertEqual(resp.status_code, 200)
 
     def test_vote_counting(self):
