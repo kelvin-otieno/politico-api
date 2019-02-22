@@ -40,6 +40,17 @@ class TestOffice(BaseTestCase):
         self.assertEqual(response.json['data'][0]['name'], 'mca')
         self.assertEqual(response.status_code, 200)
 
+    def test_deleting_an_office(self):
+        """Test for deleting an office"""
+        data = OFFICE_DATA
+        post = create_office_v2(self, data, self.header)
+        path = '/api/v2/offices/1'
+        response = self.client.delete(
+            path, content_type='application/json', headers=self.header)
+        self.assertEqual(response.json['message'],
+                         'Office successfully deleted')
+        self.assertEqual(response.status_code, 200)
+
     def tearDown(self):
         with self.app.app_context():
             destroydb()

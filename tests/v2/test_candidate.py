@@ -26,6 +26,15 @@ class TestCandidate(BaseTestCase):
 
         self.assertEqual(resp.status_code, 200)
 
+    def test_getting_all_candidates(self):
+        """Test for getting all candidates"""
+        postc = create_office_v2(self, OFFICE_DATA, self.header)
+        responsec = create_party_v2(self, PARTY_DATA, self.header)
+        respc = create_candidate(self, CANDIDATE_DATA, self.header)
+        resp = self.client.get(path='/api/v2/office/', headers=self.header)
+        self.assertEqual(resp.json['data'][0]['candidate_id'], 1)
+        self.assertEqual(resp.status_code, 200)
+
     def tearDown(self):
         with self.app.app_context():
             destroydb()
