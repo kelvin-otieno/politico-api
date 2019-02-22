@@ -18,12 +18,12 @@ Clone the application from the link `https://github.com/kelvin-otieno/politico-a
 
 # Run
 
-    Install postgress db to your local machine
-    Create a database on postgress and update the DATABASE_URL variable in the .env file with the correct details
-    Navigate to the root of the project
-    Install all the requirements `pip install -r requirements.txt`
-    export all the environment variables `source .env`
-    Run the application `python run.py`
+Install postgress db to your local machine
+Create a database on postgress and update the DATABASE_URL variable in the .env file with the correct details
+Navigate to the root of the project
+Install all the requirements `pip install -r requirements.txt`
+export all the environment variables `source .env`
+Run the application `python run.py`
 
 # Testing
 
