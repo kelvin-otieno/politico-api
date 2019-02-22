@@ -2,18 +2,15 @@ from app.database_config import init_db
 from app.api.v2.models.basemodel import BaseModel
 from flask import request
 
-candidate_id = 1
-office_id = 1
-voter_id = 1
-result = 0
-
 
 class Vote(BaseModel):
+    candidate_id = 1
+    office_id = 1
+    voter_id = 1
+    result = 0
+
     def __init__(self):
         pass
-        # self.name = name.strip().lower()
-        # self.hqAddress = hqAddress.strip().lower()
-        # self.logoUrl = logoUrl.strip().lower()
 
     def cast_vote(self):
         vote = {
@@ -38,18 +35,29 @@ class Vote(BaseModel):
         # pdb.set_trace()
         try:
             cur.execute(query, vote)
-        except:
-            return dict(status=400, error="you can only vote once per office")
+        except Exception as e:
+            return dict(status=400, error=str(e))
 
         # party_id = cur.fetchone()[0]
         con.commit()
         con.close()
+        user_id = BaseModel.getFieldVal(
+            self, 'candidate', 'user_id', 'candidate_id', self.candidate_id)
+        candidate_name = BaseModel.getFieldVal(
+            self, 'users', 'firstname', 'user_id', user_id)
+        voter_name = BaseModel.getFieldVal(
+            self, 'users', 'firstname', 'user_id', self.voter_id)
+        office_name = BaseModel.getFieldVal(
+            self, 'office', 'name', 'office_id', self.office_id)
         success = {
             "status": 201,
             "data": {
-                "candidate": candidate_id,
-                "voter": voter_id,
-                "office_id": office_id
+                "candidate_id": self.candidate_id,
+                "candidate_name": candidate_name,
+                "voter_id": self.voter_id,
+                "voter_name": voter_name,
+                "office_id": self.office_id,
+                "office_name": office_name
             }
 
         }
@@ -66,15 +74,23 @@ class Vote(BaseModel):
         candidates_set = set()
         cur.execute(query)
         votes = cur.fetchall()
+
+        office_name = BaseModel.getFieldVal(
+            self, 'office', 'name', 'office_id', office_id)
         for vote in votes:
             candidates_set.add(vote[1])
-        result = 0
+
         for candidate in candidates_set:
+            user_id = BaseModel.getFieldVal(
+                self, 'candidate', 'user_id', 'candidate_id', candidate)
+            candidate_name = BaseModel.getFieldVal(
+                self, 'users', 'firstname', 'user_id', user_id)
+            result = 0
             for vote in votes:
                 if vote[1] == candidate:
                     result += 1
             votes_list.append(
-                dict(office=office_id, candidate=candidate, result=result))
+                dict(office=office_id, of_name=office_name, candidate=candidate, cd_name=candidate_name, result=result))
 
         con.commit()
         con.close()

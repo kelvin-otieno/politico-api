@@ -28,7 +28,7 @@ USER_DATA = {
                 "othername": "okoth",
                 "email": "kelvinotieno06@gmail.com",
                 "phoneNumber": "0712561543",
-                "passportUrl": "image.png",
+                "passportUrl": "http://image.png",
                 "password": "Iamnumber1"
 }
 

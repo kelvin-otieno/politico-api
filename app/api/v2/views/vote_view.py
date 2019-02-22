@@ -7,7 +7,7 @@ are responsible for handling the voting process"""
 
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.vote_model import Vote
-from . import token_auth
+from . import token_auth, loggedID
 # from app.api.v2 import token_auth
 # from functools import wraps
 # import jwt
@@ -21,9 +21,9 @@ vote = Vote()
 @token_auth
 def cast_vote():
     """This route calls the method that handles the casting of votes"""
-    if request.json['candidate_id'] and request.json['office_id'] and request.json['voter_id']:
+    if request.json['candidate_id'] and request.json['office_id']:
         candidate_id = request.json['candidate_id']
-        voter_id = request.json['voter_id']
+        voter_id = loggedID()
         office_id = request.json['office_id']
         vote.candidate_id = candidate_id
         vote.voter_id = voter_id

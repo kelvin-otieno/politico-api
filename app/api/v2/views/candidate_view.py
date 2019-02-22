@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.candidate_model import Candidate
-from . import token_auth,is_admin
+from . import token_auth, is_admin
 
 bpcandidate = Blueprint('candidate', __name__)
 candidate = Candidate()
@@ -44,3 +44,10 @@ def create_candidate(officeid):
     # return make_response(jsonify({"status": "OK", "message": "I am {}".format(full_name)}))
     # msg = "the name is " + full_name
     # return msg
+
+
+@bpcandidate.route('/', methods=['GET'])
+@token_auth
+def candidates_all():
+    """function to retrieve all candidates"""
+    return jsonify(candidate.get_candidates())
