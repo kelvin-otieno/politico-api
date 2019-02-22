@@ -18,7 +18,12 @@ Clone the application from the link `https://github.com/kelvin-otieno/politico-a
 
 # Run
 
-Navigate to the root of the project then from the terminal execute `python run.py`
+Install postgress db to your local machine
+Create a database on postgress and update the DATABASE_URL variable in the .env file with the correct details
+Navigate to the root of the project
+Install all the requirements `pip install -r requirements.txt`
+export all the environment variables `source .env`
+Run the application `python run.py`
 
 # Testing
 
@@ -43,6 +48,11 @@ To test, while on the root folder, run `pytest -v tests/` or simply navigate to 
 | /api/v2/office/`<id>`/register/ |  Register a candidate   | POST   |
 | /api/v2/votes/                  |          Vote           | POST   |
 | /api/v2/office/`<id>`/result/   |       Count votes       | POST   |
+| /api/v2/office/                 |   Get all candidates    | GET    |
+| /api/v2/auth/                   |      Get all users      | GET    |
+| /api/v2/auth/reset              |     Reset password      | POST   |
+| /api/v2/petitions/              |    Get all petitions    | GET    |
+| /api/v2/petitions/              |    Create a petition    | POST   |
 
 # Project Management
 
