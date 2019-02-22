@@ -80,7 +80,7 @@ def reset_pwd():
             confirm_password = request.json['confirm_password']
             if password != confirm_password:
                 return jsonify(dict(status=400, error="Password and confirm password must be the same")), 400
-            elif validation.isValidPassword(password):
+            elif not validation.isValidPassword(password):
                 return jsonify(dict(status=400, error="Password length must be greater than 6 characters")), 400
             else:
                 return jsonify(user.reset_password(email.strip(), password.strip()))

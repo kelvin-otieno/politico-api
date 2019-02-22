@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.office_model import PoliticalOffice
-from . import token_auth, is_admin
+from . import token_auth, is_admin, validation
 
 bpofficev2 = Blueprint('officev2', __name__)
 office = PoliticalOffice()
@@ -32,6 +32,9 @@ def create_office():
             return jsonify(dict(status=400, data={"Bad request": "Office can only be legislative, state, federal or local government"}))
         else:
             office.office_type = office_type.strip().lower()
+
+    if not validation.isValidName([name, office_type]):
+        return jsonify(status=400, error="A valid name contains only alphabets"), 400
 
     if name and office_type:
         return jsonify(office.save_office())

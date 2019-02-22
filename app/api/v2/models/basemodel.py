@@ -15,4 +15,14 @@ class BaseModel(object):
         if resp:
             return True
         else:
-            return False
+            return
+
+    def getFieldVal(self, table_name, field_name, pk, value):
+        con = init_db()
+        cur = con.cursor()
+        query = "SELECT {} FROM {} WHERE {}='{}'".format(
+            field_name, table_name, pk, value)
+        cur.execute(query)
+        resp = cur.fetchall()
+        name = resp[0][0]
+        return name

@@ -8,11 +8,12 @@ party_id = 1
 
 
 class Candidate(BaseModel):
+
     def __init__(self):
         pass
-        # self.name = name.strip().lower()
-        # self.hqAddress = hqAddress.strip().lower()
-        # self.logoUrl = logoUrl.strip().lower()
+        # self.user_id = user_id
+        # self.office_id = office_id
+        # self.logoUrl = party_id
 
     def save_candidate(self):
         candidate = {
@@ -37,13 +38,50 @@ class Candidate(BaseModel):
         # party_id = cur.fetchone()[0]
         con.commit()
         con.close()
+        office_name = BaseModel.getFieldVal(
+            self, 'office', 'name', 'office_id', self.office_id)
+        candidate_name = BaseModel.getFieldVal(
+            self, 'users', 'firstname', 'user_id', self.user_id)
+        party_name = BaseModel.getFieldVal(
+            self, 'party', 'name', 'party_id', self.party_id)
         success = {
             "status": 201,
             "data": {
-                "office": office_id,
-                "user": user_id,
-                "party": party_id
+                "office": self.office_id,
+                "office_name": office_name,
+                "user": self.user_id,
+                "user_name": candidate_name,
+                "party": self.party_id,
+                "party_name": party_name
             }
 
         }
         return success
+
+    def get_candidates(self):
+        """method to get all candidates"""
+        con = init_db()
+        cur = con.cursor()
+        query = "SELECT candidate_id,user_id, office_id ,party_id from candidate;"
+        cur.execute(query)
+        data = cur.fetchall()
+        candidate_list = []
+
+        for i, items in enumerate(data):
+            candidate_id, user_id, office_id, party_id = items
+            office_name = BaseModel.getFieldVal(
+                self, 'office', 'name', 'office_id', office_id)
+            candidate_name = BaseModel.getFieldVal(
+                self, 'users', 'firstname', 'user_id', user_id)
+            party_name = BaseModel.getFieldVal(
+                self, 'party', 'name', 'party_id', party_id)
+            candidate = dict(
+                candidate_id=candidate_id,
+                candidate_name=candidate_name,
+                office_id=office_id,
+                office_name=office_name,
+                party_name=party_name
+            )
+            candidate_list.append(candidate)
+
+        return dict(status=200, data=candidate_list)

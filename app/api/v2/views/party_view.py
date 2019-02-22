@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.api.v2.models.party_model import PoliticalParty
-from . import token_auth, is_admin
+from . import token_auth, is_admin, validation
 
 bppartyv2 = Blueprint('partyv2', __name__)
 party = PoliticalParty()
@@ -32,6 +32,8 @@ def create_party():
         return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a party"}))
     if request.json['name'].strip() and request.json['hqAddress'].strip() and request.json['logoUrl'].strip():
         name = request.json['name']
+        if not validation.isValidName([name]):
+            return jsonify(status=400, error="A valid name contains only alphabets"), 400
         hqAddress = request.json['hqAddress']
         logoUrl = request.json['logoUrl']
         # party = PoliticalParty()
