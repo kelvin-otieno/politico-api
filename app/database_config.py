@@ -55,6 +55,7 @@ def destroydb():
     offices = "DROP TABLE IF EXISTS office CASCADE;"
     candidates = "DROP TABLE IF EXISTS candidate CASCADE;"
     votes = "DROP TABLE IF EXISTS vote CASCADE;"
+    petitions = "DROP TABLE IF EXISTS petition CASCADE;"
 
     queries = [parties, offices, users, candidates, votes]
 
@@ -90,6 +91,7 @@ def tables():
         password character varying(100) NOT NULL,
         date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
     );"""
+
     candidates = """CREATE TABLE IF NOT EXISTS candidate (
         candidate_id serial UNIQUE,
         user_id integer REFERENCES users(user_id),
@@ -106,6 +108,14 @@ def tables():
         PRIMARY KEY(voter_id,office_id),
         date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
     );"""
+    petitions = """CREATE TABLE IF NOT EXISTS petition (
+        petition_id serial UNIQUE,
+        office_id integer REFERENCES office(office_id),
+        user_id integer REFERENCES users(user_id),
+        text character varying(900) NOT NULL,
+        evidence character varying(900) NOT NULL,
+        date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
+    );"""
 
-    queries = [offices, parties, users, candidates, votes]
+    queries = [offices, parties, users, candidates, votes, petitions]
     return queries

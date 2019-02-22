@@ -29,9 +29,17 @@ def token_auth(f):
         return f(*args, **kwargs)
     return check_token
 
+
 def is_admin():
     token = request.headers['token']
     data = jwt.decode(token, key)
     role = data['role']
     isadmin = bool(role)
     return isadmin
+
+
+def loggedID():
+    token = request.headers['token']
+    data = jwt.decode(token, key)
+    user_id = int(data['user_id'])
+    return user_id
