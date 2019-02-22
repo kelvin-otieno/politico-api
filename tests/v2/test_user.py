@@ -30,6 +30,13 @@ class TestUser(BaseTestCase):
         resp = login_user(self, LOGIN_DATA)
         self.assertEqual(resp.json['data']['user']['firstname'], 'elsie')
 
+    def test_getting_all_users(self):
+        """Test for getting all users"""
+        post = create_user(self, USER_DATA)
+        resp = self.client.get(path='/api/v2/auth/')
+        self.assertEqual(resp.json['data'][0]['email'], 'admin@admin.com')
+        self.assertEqual(resp.status_code, 200)
+
     def tearDown(self):
         with self.app.app_context():
             destroydb()

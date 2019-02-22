@@ -15,6 +15,11 @@ PARTY_EDITED_DATA = {
     'name': 'WIPER'
 }
 
+OFFICE_EDITED_DATA = {
+    'name': 'governor'
+}
+
+
 VOTING_DATA = {
 
     "voter_id": 1,
