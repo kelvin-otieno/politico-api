@@ -1,5 +1,6 @@
 """Class to initialise our app"""
 from flask import Flask
+from flask_cors import CORS
 from app.api.v1.views.party_view import bpparty
 from app.api.v1.views.office_view import bpoffice
 from app.api.v2.views.party_view import bppartyv2
@@ -16,6 +17,7 @@ def create_app():
     app = Flask(__name__)
     # app.config['SECRET_KEY'] = 'secretkey'
     # database_config.destroydb()
+    cors = CORS(app)
     app.url_map.strict_slashes = False
     app.register_blueprint(bpparty, url_prefix='/api/v1/parties')
     app.register_blueprint(bpoffice, url_prefix='/api/v1/offices')

@@ -101,7 +101,7 @@ class User(BaseModel):
                 'user_id': user_id,
                 'user': email,
                 'role': isAdmin,
-                'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30)
+                'exp': datetime.datetime.utcnow()+datetime.timedelta(hours=5)
             }, os.getenv('SECRET_KEY'))
             user = dict(
                 firstname=data[0],
