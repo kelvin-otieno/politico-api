@@ -29,7 +29,7 @@ def parties_id(id):
 def create_party():
     """ Creating a political party"""
     if not is_admin():
-        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a party"}))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can create a party"))
     if request.json['name'].strip() and request.json['hqAddress'].strip() and request.json['logoUrl'].strip():
         name = request.json['name']
         if not validation.isValidName([name]):
