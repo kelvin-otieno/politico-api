@@ -57,8 +57,9 @@ def create_party():
 @token_auth
 def edit_party(id):
     # pparty = PoliticalParty()
+
     if not is_admin():
-        return jsonify(dict(status=401, data={"Not authorized": "Only admins can edit a party"}))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can edit a party"))
     if 'name' in request.json and not request.json['name'].strip():
         return jsonify(dict(status=400, error="Bad request. You cannot have a blank field"))
     if 'hqAddress' in request.json and not request.json['hqAddress'].strip():
@@ -75,5 +76,5 @@ def delete_party(id):
     """ Deleting a political party"""
     # party = PoliticalParty()
     if not is_admin():
-        return jsonify(dict(status=401, data={"Not authorized": "Only admins can delete a party"}))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can create a party"))
     return jsonify(party.delete_party(id))

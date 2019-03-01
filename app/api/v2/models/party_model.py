@@ -92,11 +92,11 @@ class PoliticalParty(BaseModel):
             return dict(status=404, error="No party with ID:{}".format(party_id))
 
         query = "Update party set "
-
         if 'name' in request.json and request.json['name'].strip():
             uname = request.json['name'].strip().lower()
             if BaseModel().check_exists('party', 'name', uname):
-                return dict(status=409, error="Cannot have more than one party with the same name")
+                if uname != BaseModel.getFieldVal(self, 'party', 'name', 'party_id', party_id):
+                    return dict(status=409, error="Cannot have more than one party with the same name")
             query += "name = '" + str(uname) + "'"
         if 'hqAddress' in request.json and request.json['hqAddress'].strip():
             uhqAddress = request.json['hqAddress'].strip().lower()
@@ -112,7 +112,7 @@ class PoliticalParty(BaseModel):
                 query += "logoUrl = '" + str(ulogoUrl) + "'"
 
         query += " where party_id = {}".format(party_id)
-        # import pdb; pdb.set_trace()
+
         cur.execute(query)
 
         con.commit()
