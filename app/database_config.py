@@ -76,7 +76,7 @@ def tables():
         party_id serial PRIMARY KEY NOT NULL,
         name character varying(50) NOT NULL UNIQUE,
         hqAddress character varying(50) NOT NULL,
-        logoUrl character varying(50) NOT NULL,
+        logoUrl character varying(500) NOT NULL,
         date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
     );"""
     users = """CREATE TABLE IF NOT EXISTS users (
@@ -86,7 +86,7 @@ def tables():
         othername character varying(50) NOT NULL,
         email character varying(50) NOT NULL UNIQUE,
         phoneNumber character varying(50) NOT NULL UNIQUE,
-        passportUrl character varying(50) NOT NULL,
+        passportUrl character varying(500) NOT NULL,
         isAdmin boolean DEFAULT false,
         password character varying(100) NOT NULL,
         date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
