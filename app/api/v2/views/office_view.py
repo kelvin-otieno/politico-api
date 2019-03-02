@@ -11,13 +11,13 @@ office = PoliticalOffice()
 def create_office():
     """ Creating a political office"""
     if not is_admin():
-        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create an office"}))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can create an office"))
     if 'name' not in request.json or 'office_type' not in request.json:
-        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
+        return jsonify(dict(status=400, error="Bad request. Enter all fields"))
         # import pdb
         # pdb.set_trace()
     if not request.json['name'].strip() or not request.json['office_type'].strip():
-        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
+        return jsonify(dict(status=400, error="Bad request. Enter all fields"))
 
     if request.json['name'].strip():
         # import pdb
@@ -29,7 +29,7 @@ def create_office():
         office_type = request.json['office_type']
         if office_type.strip().lower() != 'federal' and office_type.strip().lower() != 'legislative' and office_type.strip().lower() != 'state' and office_type.strip().lower() != 'local government':
             #  import pdb; pdb.set_trace()
-            return jsonify(dict(status=400, data={"Bad request": "Office can only be legislative, state, federal or local government"}))
+            return jsonify(dict(status=400, error="Bad request. Office can only be legislative, state, federal or local government"))
         else:
             office.office_type = office_type.strip().lower()
 
@@ -39,7 +39,7 @@ def create_office():
     if name and office_type:
         return jsonify(office.save_office())
     else:
-        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
+        return jsonify(dict(status=400, error="Bad request. Enter all fields"))
 
     # POLITICAL_PARTIES.append(party)
 
@@ -68,7 +68,7 @@ def offices_id(id):
 @token_auth
 def edit_office(id):
     if not is_admin():
-        return jsonify(dict(status=401, data={"Not authorized": "Only admins can create a candidate"}))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can create a candidate"))
     if 'name' in request.json and not request.json['name'].strip():
         return jsonify(dict(status=400, error="Bad request. You cannot have a blank field"))
     if 'office_type' in request.json and not request.json['office_type'].strip():
@@ -82,5 +82,5 @@ def edit_office(id):
 def delete_office(id):
     """ Deleting a political office"""
     if not is_admin():
-        return jsonify(dict(status=401, data="Not authorized. Only admins can delete an office"))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can delete an office"))
     return jsonify(office.delete_office(id))

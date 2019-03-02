@@ -36,7 +36,7 @@ class PoliticalOffice(BaseModel):
         con = init_db()
         cur = con.cursor()
         if not BaseModel().check_exists('office', 'office_id', office_id):
-            return dict(status=404, data={"error": "No office with ID:{}".format(office_id)})
+            return dict(status=404, error="Bad Request.No office with ID:{}".format(office_id))
         query = "SELECT office_id, name,office_type from Office where office_id = {};".format(
             office_id)
         cur.execute(query)
