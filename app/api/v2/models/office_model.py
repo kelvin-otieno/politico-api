@@ -97,17 +97,18 @@ class PoliticalOffice(BaseModel):
         if 'name' in request.json and request.json['name'].strip():
             uname = request.json['name'].strip().lower()
             if BaseModel().check_exists('office', 'name', uname):
-                return dict(status=409, error="Cannot have more than one office with the same name")
+                if uname != BaseModel.getFieldVal(self, 'office', 'name', 'office_id', office_id):
+                    return dict(status=409, error="Cannot have more than one office with the same name")
             query += "name = '" + str(uname) + "'"
         if 'office_type' in request.json and request.json['office_type'].strip():
             utype = request.json['office_type'].strip().lower()
             if 'name' in request.json and request.json['name'].strip():
-                query += ",office_type = '" + str(office_type) + "'"
+                query += ",office_type = '" + str(utype) + "'"
             else:
-                query += "office_type = '" + str(office_type) + "'"
+                query += "office_type = '" + str(utype) + "'"
 
         query += " where office_id = {}".format(office_id)
-        # import pdb; pdb.set_trace()
+
         cur.execute(query)
 
         con.commit()
