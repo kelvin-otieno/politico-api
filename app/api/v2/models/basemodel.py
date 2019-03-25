@@ -1,12 +1,15 @@
-from app.database_config import init_db
+from app.database_config import Database
+
+db = None
 
 
 class BaseModel(object):
+
     def __init__(self):
-        pass
+        self.db = Database()
 
     def check_exists(self, table_name, field_name, value):
-        con = init_db()
+        con = self.db.init_db()
         cur = con.cursor()
         query = "SELECT * FROM {} WHERE {}.{}='{}'".format(
             table_name, table_name, field_name, value)
@@ -18,7 +21,7 @@ class BaseModel(object):
             return
 
     def getFieldVal(self, table_name, field_name, pk, value):
-        con = init_db()
+        con = self.db.init_db()
         cur = con.cursor()
         query = "SELECT {} FROM {} WHERE {}='{}'".format(
             field_name, table_name, pk, value)
@@ -26,3 +29,12 @@ class BaseModel(object):
         resp = cur.fetchall()
         name = resp[0][0]
         return name
+
+    def returnResult(self, query):
+        con = self.db.init_db()
+        cur = con.cursor()
+        query = query
+        cur.execute(query)
+        resp = cur.fetchall()
+        result = resp[0][0]
+        return result

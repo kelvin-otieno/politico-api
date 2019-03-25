@@ -4,14 +4,14 @@ from ..base_test import BaseTestCase
 from ..helper_data import OFFICE_DATA, USER_DATA, LOGIN_DATA, OFFICE_EDITED_DATA
 from ..helper_methods import create_office_v2, create_user, login_user
 from app.api.v2.models.office_model import PoliticalOffice
-from app.database_config import init_db, destroydb
+from app.database_config import Database
 import json
 
 
 class TestOffice(BaseTestCase):
     """docstring for TestOffice"""
-
-    destroydb()
+    db = Database()
+    db.destroydb()
 
     def setUp(self):
         super(TestOffice, self).setUp()
@@ -63,7 +63,7 @@ class TestOffice(BaseTestCase):
 
     def tearDown(self):
         with self.app.app_context():
-            destroydb()
+            self.db.destroydb()
 
 
 if __name__ == '__main__':

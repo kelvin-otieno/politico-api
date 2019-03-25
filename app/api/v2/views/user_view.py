@@ -4,6 +4,8 @@ import bcrypt
 from . import token_auth
 import re
 from . import validation
+import jwt
+import os
 
 bpuser = Blueprint('user', __name__)
 user = User()
@@ -69,29 +71,47 @@ def login_user():
 @bpuser.route('/reset', methods=['POST'])
 def reset_pwd():
     """ reset user password"""
-    # import pdb
-    # pdb.set_trace()
-    if 'email' in request.json and 'password' in request.json and 'confirm_password' in request.json:
-        if request.json['email'].strip() and request.json['password'].strip() and request.json['confirm_password'].strip():
-            email = request.json['email']
-            if not validation.isValidEmail(email):
-                return jsonify(dict(status=400, error="")), 400
+    if 'password' in request.json and 'token' in request.json:
+        if request.json['password'].strip():
             password = request.json['password']
-            confirm_password = request.json['confirm_password']
-            if password != confirm_password:
-                return jsonify(dict(status=400, error="Password and confirm password must be the same")), 400
-            elif not validation.isValidPassword(password):
+            if not validation.isValidPassword(password):
                 return jsonify(dict(status=400, error="Password length must be greater than 6 characters")), 400
             else:
-                return jsonify(user.reset_password(email.strip(), password.strip()))
+                try:
+                    data = jwt.decode(
+                        request.json['token'], os.getenv('SECRET_KEY'))
+                    user_id = data['user_id']
 
+                except Exception as e:
+                    return jsonify(dict(status=400, error="invalid token"))
+                return jsonify(user.reset_password(user_id, password))
         else:
-            return jsonify(dict(status=400, data={"error": "email cannot be empty"}))
-    else:
-        return jsonify(dict(status=400, error="Provide email"))
+            return jsonify(dict(status=400, error="Provide password"))
 
 
 @bpuser.route('/', methods=['GET'])
 def users_all():
     """function to retrieve all users"""
     return jsonify(user.get_users())
+
+
+@bpuser.route('/<int:id>', methods=['GET'])
+def get_user(id):
+    """function to retrieve specific user"""
+    return jsonify(user.get_user(id))
+
+
+@bpuser.route('/<int:id>', methods=['PUT'])
+def update_user(id):
+    """function to update user"""
+    return jsonify(user.update_user(id))
+
+
+@bpuser.route('/send_link', methods=['POST'])
+def send_link():
+    """function to send password reset link"""
+    if 'email' in request.json:
+        email = request.json['email']
+        return jsonify(user.send_link(email))
+    else:
+        return jsonify(status=400, error="Bad request.Enter email")

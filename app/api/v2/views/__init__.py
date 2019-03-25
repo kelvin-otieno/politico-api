@@ -15,13 +15,14 @@ def token_auth(f):
     def check_token(*args, **kwargs):
         if 'token' in request.headers:
             token = request.headers['token']
+
             if token.strip():
                 try:
                     data = jwt.decode(token, key)
                     role = data['role']
                     isadmin = bool(role)
-                except:
-                    return jsonify(dict(status=400, error="Bad request. Invalid token")), 400
+                except Exception as e:
+                    return jsonify(dict(status=400, error="Invalid token")), 400
             else:
                 return jsonify(dict(status=400, error="Bad request. Empty token string")), 400
         else:

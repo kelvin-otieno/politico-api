@@ -6,16 +6,17 @@ from ..base_test import BaseTestCase
 from ..helper_methods import create_user, login_user
 from ..helper_data import USER_DATA, LOGIN_DATA
 from app.api.v2.models.user_model import User
-from app.database_config import init_db, destroydb
+from app.database_config import Database
 
 
 class TestUser(BaseTestCase):
     """docstring for TestParty"""
-    destroydb()
+    db = Database()
+    db.destroydb()
 
     def setUp(self):
         super(TestUser, self).setUp()
-        init_db()
+        self.db.init_db()
 
     def test_creating_a_user(self):
         """Test for creating a new user"""
@@ -37,9 +38,26 @@ class TestUser(BaseTestCase):
         self.assertEqual(resp.json['data'][0]['email'], 'admin@admin.com')
         self.assertEqual(resp.status_code, 200)
 
+    def test_getting_a_user(self):
+        """Test for getting a user"""
+        post = create_user(self, USER_DATA)
+        resp = self.client.get(path='/api/v2/auth/1')
+        self.assertEqual(resp.json['data'][0]['email'], 'admin@admin.com')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_reset_password(self):
+        """Test for resetting password"""
+        header = BaseTestCase.getHeader(self)
+        # post = create_user(self, USER_DATA)
+        path = '/api/v2/auth/reset'
+        response = self.client.post(
+            path, data=json.dumps({"password": "password1", "token": header['token']}), content_type='application/json')
+        self.assertEqual(response.json['data']
+                         ['message'], 'password set successfully')
+
     def tearDown(self):
         with self.app.app_context():
-            destroydb()
+            self.db.destroydb()
 
 
 if __name__ == '__main__':

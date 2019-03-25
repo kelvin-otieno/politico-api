@@ -2,16 +2,19 @@
 import json
 import unittest
 import pdb
+import os
 from ..base_test import BaseTestCase
 from ..helper_methods import create_candidate, create_office_v2, create_user, login_user, create_party_v2
 from ..helper_data import CANDIDATE_DATA, OFFICE_DATA, USER_DATA, LOGIN_DATA, PARTY_DATA
 from app.api.v2.models.candidate_model import Candidate
-from app.database_config import init_db, destroydb
+from app.database_config import Database
 
 
 class TestCandidate(BaseTestCase):
     """docstring for TestCandidate"""
-    destroydb()
+
+    db = Database()
+    db.destroydb()
 
     def setUp(self):
         super(TestCandidate, self).setUp()
@@ -23,7 +26,6 @@ class TestCandidate(BaseTestCase):
         response = create_party_v2(self, PARTY_DATA, self.header)
         resp = create_candidate(self, CANDIDATE_DATA, self.header)
         self.assertEqual(resp.json['data']['user'], 1)
-
         self.assertEqual(resp.status_code, 200)
 
     def test_getting_all_candidates(self):
@@ -37,7 +39,7 @@ class TestCandidate(BaseTestCase):
 
     def tearDown(self):
         with self.app.app_context():
-            destroydb()
+            self.db.destroydb()
 
 
 if __name__ == '__main__':

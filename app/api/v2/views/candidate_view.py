@@ -51,3 +51,10 @@ def create_candidate(officeid):
 def candidates_all():
     """function to retrieve all candidates"""
     return jsonify(candidate.get_candidates())
+
+
+@bpcandidate.route('/<int:officeid>', methods=['GET'])
+@token_auth
+def get_candidates_by_id(officeid):
+    """function to retrieve all candidates"""
+    return jsonify(candidate.get_candidates_by_office(officeid))

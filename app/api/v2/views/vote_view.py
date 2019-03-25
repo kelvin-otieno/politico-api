@@ -32,7 +32,7 @@ def cast_vote():
         return jsonify(vote.cast_vote())
 
     else:
-        return jsonify(dict(status=400, data={"error": "Bad request. Enter all fields"}))
+        return jsonify(dict(status=400, error="Bad request. Enter all fields"))
 
 
 @bpvote.route('office/<int:office_id>/result/', methods=['GET'])

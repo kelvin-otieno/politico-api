@@ -6,12 +6,13 @@ from ..base_test import BaseTestCase
 from ..helper_methods import create_candidate, create_office_v2, create_user, create_vote, login_user, create_party_v2
 from ..helper_data import CANDIDATE_DATA, OFFICE_DATA, USER_DATA, VOTING_DATA, PARTY_DATA, LOGIN_DATA
 from app.api.v2.models.vote_model import Vote
-from app.database_config import init_db, destroydb
+from app.database_config import Database
 
 
 class TestVote(BaseTestCase):
     """docstring for TestVote"""
-    destroydb()
+    db = Database()
+    db.destroydb()
 
     def setUp(self):
         super(TestVote, self).setUp()
@@ -28,10 +29,10 @@ class TestVote(BaseTestCase):
 
     def test_vote_counting(self):
         """Test for counting votes"""
-        create_office_v2(self, OFFICE_DATA, self.header)
-        create_party_v2(self, PARTY_DATA, self.header)
-        create_candidate(self, CANDIDATE_DATA, self.header)
-        create_vote(self, VOTING_DATA, self.header)
+        office = create_office_v2(self, OFFICE_DATA, self.header)
+        party = create_party_v2(self, PARTY_DATA, self.header)
+        candidate = create_candidate(self, CANDIDATE_DATA, self.header)
+        vote = create_vote(self, VOTING_DATA, self.header)
         response = self.client.get(path='/api/v2/office/1/result/')
         self.assertEqual(response.json['data'][0]['result'], 1)
 
@@ -39,7 +40,7 @@ class TestVote(BaseTestCase):
 
     def tearDown(self):
         with self.app.app_context():
-            destroydb()
+            self.db.destroydb()
 
 
 if __name__ == '__main__':

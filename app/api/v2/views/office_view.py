@@ -56,6 +56,14 @@ def offices_all():
     return jsonify(office.get_offices())
 
 
+@bpofficev2.route('/voted', methods=['GET'])
+@token_auth
+def offices_voted():
+    """function to retrieve all voted political offices"""
+    # office = PoliticalOffice()
+    return jsonify(office.get_voted_offices())
+
+
 @bpofficev2.route('/<int:id>', methods=['GET'])
 @token_auth
 def offices_id(id):
@@ -68,7 +76,7 @@ def offices_id(id):
 @token_auth
 def edit_office(id):
     if not is_admin():
-        return jsonify(dict(status=401, error="Not authorized. Only admins can create a candidate"))
+        return jsonify(dict(status=401, error="Not authorized. Only admins can update an office"))
     if 'name' in request.json and not request.json['name'].strip():
         return jsonify(dict(status=400, error="Bad request. You cannot have a blank field"))
     if 'office_type' in request.json and not request.json['office_type'].strip():

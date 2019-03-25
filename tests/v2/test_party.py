@@ -2,16 +2,20 @@
 import json
 import unittest
 import pdb
+import app
+import os
 from ..base_test import BaseTestCase
 from ..helper_methods import create_party_v2, create_user, login_user
 from ..helper_data import PARTY_DATA, PARTY_EDITED_DATA, USER_DATA, LOGIN_DATA
 from app.api.v2.models.party_model import PoliticalParty
-from app.database_config import init_db, destroydb
+from app.database_config import Database
+
 
 
 class TestParty(BaseTestCase):
     """docstring for TestParty"""
-    destroydb()
+    db = Database()
+    db.destroydb()
 
     def setUp(self):
         super(TestParty, self).setUp()
@@ -58,7 +62,7 @@ class TestParty(BaseTestCase):
 
     def tearDown(self):
         with self.app.app_context():
-            destroydb()
+            self.db.destroydb()
 
 
 if __name__ == '__main__':
